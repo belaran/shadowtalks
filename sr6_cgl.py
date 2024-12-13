@@ -9,6 +9,11 @@ from docx.shared import Inches
 CGL_NORMAL_TEXT = 'Normal Text'
 CGL_SHADOWTALK_STYLE_NAME = 'Shadowtalk'
 CGL_LAYOUT_NOTE_STYLE_NAME = 'Layout Note'
+CGL_LAYOUT_HEADER_ONE_STYLE_NAME = "Header 1"
+CGL_LAYOUT_HEADER_TWO_STYLE_NAME = "Header 2"
+CGL_LAYOUT_HEADER_THREE_STYLE_NAME = "Header 3"
+CGL_LAYOUT_HEADER_FOUR_STYLE_NAME = "Header 4"
+CGL_LAYOUT_HEADER_FIVE_STYLE_NAME = "Header 5"
 
 DEBUG = False
 
@@ -77,20 +82,51 @@ output_filename = sys.argv[2]
 index = {
 	"LO-normal": CGL_NORMAL_TEXT,
     "normal": CGL_NORMAL_TEXT,
-	"Heading 1": "Header 2",
-	"Heading 2": "Header 3",
-	"Heading 3": "Header 4",
-    "Heading 4": "Header 5",
-    "Title": "Header 1",
+	"Heading 1": CGL_LAYOUT_HEADER_TWO_STYLE_NAME,
+	"Heading 2": CGL_LAYOUT_HEADER_THREE_STYLE_NAME,
+	"Heading 3": CGL_LAYOUT_HEADER_FOUR_STYLE_NAME,
+    "Heading 4": CGL_LAYOUT_HEADER_FIVE_STYLE_NAME,
+    "Title": CGL_LAYOUT_HEADER_ONE_STYLE_NAME,
 }
 
 document = openDocument(input_filename)
+
+document.styles.add_style(CGL_LAYOUT_HEADER_ONE_STYLE_NAME, WD_STYLE_TYPE.PARAGRAPH)
+document.styles[CGL_LAYOUT_HEADER_ONE_STYLE_NAME].font.bold = True
+document.styles[CGL_LAYOUT_HEADER_ONE_STYLE_NAME].font.name = 'Times New Roman'
+document.styles[CGL_LAYOUT_HEADER_ONE_STYLE_NAME].font.size = Pt(24)
+
+document.styles.add_style(CGL_LAYOUT_HEADER_TWO_STYLE_NAME, WD_STYLE_TYPE.PARAGRAPH)
+document.styles[CGL_LAYOUT_HEADER_TWO_STYLE_NAME].font.bold = True
+document.styles[CGL_LAYOUT_HEADER_TWO_STYLE_NAME].font.name = 'Times New Roman'
+document.styles[CGL_LAYOUT_HEADER_TWO_STYLE_NAME].font.size = Pt(14)
+
+document.styles.add_style(CGL_LAYOUT_HEADER_THREE_STYLE_NAME, WD_STYLE_TYPE.PARAGRAPH)
+document.styles[CGL_LAYOUT_HEADER_THREE_STYLE_NAME].font.bold = True
+document.styles[CGL_LAYOUT_HEADER_THREE_STYLE_NAME].font.name = 'Times New Roman'
+document.styles[CGL_LAYOUT_HEADER_THREE_STYLE_NAME].font.size = Pt(10)
+
+document.styles.add_style(CGL_LAYOUT_HEADER_FOUR_STYLE_NAME, WD_STYLE_TYPE.PARAGRAPH)
+document.styles[CGL_LAYOUT_HEADER_FOUR_STYLE_NAME].font.bold = True
+document.styles[CGL_LAYOUT_HEADER_FOUR_STYLE_NAME].font.name = 'Times New Roman'
+document.styles[CGL_LAYOUT_HEADER_FOUR_STYLE_NAME].font.size = Pt(9)
+
+document.styles.add_style(CGL_LAYOUT_HEADER_FIVE_STYLE_NAME, WD_STYLE_TYPE.PARAGRAPH)
+document.styles[CGL_LAYOUT_HEADER_FIVE_STYLE_NAME].font.italic = True
+document.styles[CGL_LAYOUT_HEADER_FIVE_STYLE_NAME].font.name = 'Times New Roman'
+document.styles[CGL_LAYOUT_HEADER_FIVE_STYLE_NAME].font.size = Pt(9)
+
+document.styles.add_style(CGL_NORMAL_TEXT, WD_STYLE_TYPE.PARAGRAPH)
+document.styles[CGL_NORMAL_TEXT].font.italic = False
+document.styles[CGL_NORMAL_TEXT].font.name = 'Times New Roman'
+document.styles[CGL_NORMAL_TEXT].font.size = Pt(9)
+
 document.styles.add_style(CGL_SHADOWTALK_STYLE_NAME, WD_STYLE_TYPE.PARAGRAPH)
 document.styles[CGL_SHADOWTALK_STYLE_NAME].font.italic = False
 document.styles[CGL_SHADOWTALK_STYLE_NAME].font.name = 'Verdana'
 document.styles[CGL_SHADOWTALK_STYLE_NAME].font.size = Pt(9)
-document.styles.add_style(CGL_LAYOUT_NOTE_STYLE_NAME, WD_STYLE_TYPE.PARAGRAPH)
 
+document.styles.add_style(CGL_LAYOUT_NOTE_STYLE_NAME, WD_STYLE_TYPE.PARAGRAPH)
 document.styles[CGL_LAYOUT_NOTE_STYLE_NAME].font.color.rgb = RGBColor(255, 0, 0)
 document.styles[CGL_LAYOUT_NOTE_STYLE_NAME].font.name = 'Times New Roman'
 document.styles[CGL_LAYOUT_NOTE_STYLE_NAME].font.size = Pt(12)
