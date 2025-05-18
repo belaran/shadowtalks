@@ -82,6 +82,7 @@ output_filename = sys.argv[2]
 index = {
 	"LO-normal": CGL_NORMAL_TEXT,
     "normal": CGL_NORMAL_TEXT,
+    "normal1": CGL_NORMAL_TEXT,
 	"Heading 1": CGL_LAYOUT_HEADER_TWO_STYLE_NAME,
 	"Heading 2": CGL_LAYOUT_HEADER_THREE_STYLE_NAME,
 	"Heading 3": CGL_LAYOUT_HEADER_FOUR_STYLE_NAME,
