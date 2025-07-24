@@ -96,16 +96,19 @@ document.styles.add_style(CGL_LAYOUT_HEADER_ONE_STYLE_NAME, WD_STYLE_TYPE.PARAGR
 document.styles[CGL_LAYOUT_HEADER_ONE_STYLE_NAME].font.bold = True
 document.styles[CGL_LAYOUT_HEADER_ONE_STYLE_NAME].font.name = 'Times New Roman'
 document.styles[CGL_LAYOUT_HEADER_ONE_STYLE_NAME].font.size = Pt(24)
+document.styles[CGL_LAYOUT_HEADER_ONE_STYLE_NAME].font.small_caps = True
 
 document.styles.add_style(CGL_LAYOUT_HEADER_TWO_STYLE_NAME, WD_STYLE_TYPE.PARAGRAPH)
 document.styles[CGL_LAYOUT_HEADER_TWO_STYLE_NAME].font.bold = True
 document.styles[CGL_LAYOUT_HEADER_TWO_STYLE_NAME].font.name = 'Times New Roman'
 document.styles[CGL_LAYOUT_HEADER_TWO_STYLE_NAME].font.size = Pt(14)
+document.styles[CGL_LAYOUT_HEADER_TWO_STYLE_NAME].font.small_caps = True
 
 document.styles.add_style(CGL_LAYOUT_HEADER_THREE_STYLE_NAME, WD_STYLE_TYPE.PARAGRAPH)
 document.styles[CGL_LAYOUT_HEADER_THREE_STYLE_NAME].font.bold = True
 document.styles[CGL_LAYOUT_HEADER_THREE_STYLE_NAME].font.name = 'Times New Roman'
 document.styles[CGL_LAYOUT_HEADER_THREE_STYLE_NAME].font.size = Pt(10)
+document.styles[CGL_LAYOUT_HEADER_THREE_STYLE_NAME].font.small_caps = True
 
 document.styles.add_style(CGL_LAYOUT_HEADER_FOUR_STYLE_NAME, WD_STYLE_TYPE.PARAGRAPH)
 document.styles[CGL_LAYOUT_HEADER_FOUR_STYLE_NAME].font.bold = True
