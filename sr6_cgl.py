@@ -28,6 +28,18 @@ def delete_paragraph(paragraph):
     p.getparent().remove(p)
     p._p = p._element = None
 
+def apply_style(paragraph, style):
+    paragraph.insert_paragraph_before(paragraph.text,style)
+    delete_paragraph(paragraph)
+
+def posted_by(document):
+    for paragraph in document.paragraphs:
+        if paragraph.text.startswith("Posted by: "):
+            if ( DEBUG ): print("Posted By detected: " + paragraph.text)
+            style = paragraph.style
+            style.font.bold = True
+            apply_style(paragraph,style)
+
 def shadowtalk(paragraph, document):
     paragraph.insert_paragraph_before(paragraph.text.replace(">",">"), document.styles[CGL_SHADOWTALK_STYLE_NAME])
     delete_paragraph(paragraph)
@@ -43,8 +55,7 @@ def shadowtalks(document):
                 shadowtalk(paragraph, document)
 
 def layout_note(paragraph, text, document, style):
-    paragraph.insert_paragraph_before(text,style)
-    delete_paragraph(paragraph)
+    apply_style(paragraph,style)
 
 def layout_notes(document):
     layout_note_begin = False
@@ -137,5 +148,6 @@ document.styles[CGL_LAYOUT_NOTE_STYLE_NAME].font.size = Pt(12)
 
 map_gdoc_styles_to_sr6(document)
 shadowtalks(document)
+posted_by(document)
 layout_notes(document)
 document.save(output_filename)
