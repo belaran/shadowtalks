@@ -2,6 +2,8 @@ import sys
 import csv
 import io
 from docx import Document
+from docx.oxml.ns import qn
+from docx.oxml import OxmlElement
 from docx.shared import Pt
 from docx.enum.style import WD_STYLE_TYPE
 from docx.shared import RGBColor
@@ -16,13 +18,25 @@ CGL_LAYOUT_HEADER_THREE_STYLE_NAME = "Header 3"
 CGL_LAYOUT_HEADER_FOUR_STYLE_NAME = "Header 4"
 CGL_LAYOUT_HEADER_FIVE_STYLE_NAME = "Header 5"
 
+CGL_LANG_CODE = 'en-US'
+
 DEBUG = False
 
-def openDocument(filename):
-    f = open(input_filename, 'rb')
-    document = Document(f)
-    f.close()
-    return document
+def set_document_language(document, lang_code=CGL_LANG_CODE):
+    styles = document.styles
+    style = styles['Normal']
+
+    rPr = style.element.get_or_add_rPr()
+
+    lang = OxmlElement('w:lang')
+    lang.set(qn('w:val'), lang_code)  # e.g., 'en-US'
+
+    # Remove existing <w:lang> if present
+    for child in rPr.findall(qn('w:lang')):
+        rPr.remove(child)
+
+    rPr.append(lang)
+    set_document_language_full(document, CGL_LANG_CODE)
 
 def delete_paragraph(paragraph):
     p = paragraph._element
@@ -86,6 +100,38 @@ def map_gdoc_styles_to_sr6(document):
         if paragraph.style.name in index.keys():
             paragraph.style.name = index[paragraph.style.name]
 
+def set_lang_on_element(rPr, lang_code):
+    if rPr is None:
+        return
+    # Remove any existing <w:lang> element
+    for child in rPr.findall(qn('w:lang')):
+        rPr.remove(child)
+
+    # Add new <w:lang> element
+    lang = OxmlElement('w:lang')
+    lang.set(qn('w:val'), lang_code)
+    rPr.append(lang)
+
+def set_document_language_full(document, lang_code='en-US'):
+    # Set language in 'Normal' style
+    normal_style = document.styles['Normal']
+    rPr_style = normal_style.element.get_or_add_rPr()
+    set_lang_on_element(rPr_style, lang_code)
+
+    # Set language on every run in the document
+    for para in document.paragraphs:
+        for run in para.runs:
+            rPr = run._element.get_or_add_rPr()
+            set_lang_on_element(rPr, lang_code)
+
+    # Also check tables (they have paragraphs and runs too)
+    for table in document.tables:
+        for row in table.rows:
+            for cell in row.cells:
+                for para in cell.paragraphs:
+                    for run in para.runs:
+                        rPr = run._element.get_or_add_rPr()
+                        set_lang_on_element(rPr, lang_code)
 
 if len(sys.argv) != 3:
     raise ValueError("Invalid number of parameters")
@@ -153,4 +199,5 @@ map_gdoc_styles_to_sr6(document)
 shadowtalks(document)
 posted_by(document)
 layout_notes(document)
+set_document_language(document, CGL_LANG_CODE)
 document.save(output_filename)
