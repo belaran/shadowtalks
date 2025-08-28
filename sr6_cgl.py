@@ -1,5 +1,6 @@
 import sys
 import csv
+import io
 from docx import Document
 from docx.shared import Pt
 from docx.enum.style import WD_STYLE_TYPE
@@ -27,6 +28,8 @@ def delete_paragraph(paragraph):
     p = paragraph._element
     p.getparent().remove(p)
     p._p = p._element = None
+
+def openDocument(filename): return Document(io.BytesIO(open(filename, 'rb').read()))
 
 def apply_style(paragraph, style):
     paragraph.insert_paragraph_before(paragraph.text,style)
